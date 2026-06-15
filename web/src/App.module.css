@@ -1,0 +1,367 @@
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root {
+  /* Color Palette */
+  --color-bg: #f5f5f5;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #666666;
+  --color-accent: #0066cc;
+  --color-error: #cc0000;
+  --color-border: #e0e0e0;
+  --color-button-bg: #ffffff;
+  --color-button-withdraw: #f0f0f0;
+
+  /* Spacing Scale (8px base) */
+  --sp-xs: 4px;
+  --sp-sm: 8px;
+  --sp-md: 16px;
+  --sp-lg: 24px;
+  --sp-xl: 32px;
+  --sp-xxl: 48px;
+
+  /* Typography */
+  --fs-label: 12px;
+  --fs-body: 16px;
+  --fs-input: 16px;
+  --fs-button: 14px;
+  --fs-balance: 56px;
+  --fs-balance-label: 14px;
+
+  --lh-tight: 1.2;
+  --lh-normal: 1.5;
+
+  /* Borders & Radius */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+
+  /* Shadows (hard offset, no blur per neo-brutalist) */
+  --shadow-input: 1px 1px 0 #e0e0e0;
+  --shadow-button: 2px 2px 0 #1a1a1a;
+}
+
+@import url("https://rsms.me/inter/inter.css");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&display=swap");
+
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   CONTAINER
+   ============================================================ */
+.container {
+  max-width: 380px;
+  margin: 0 auto;
+  padding: var(--sp-lg);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-lg);
+
+  /* Vertical rhythm and safe area for mobile */
+  margin-top: var(--sp-xl);
+  padding-left: var(--sp-md);
+  padding-right: var(--sp-md);
+}
+
+@media (max-width: 480px) {
+  .container {
+    max-width: 100%;
+    margin-top: var(--sp-lg);
+    padding-left: var(--sp-md);
+    padding-right: var(--sp-md);
+  }
+}
+
+/* ============================================================
+   HEADER / TITLE
+   ============================================================ */
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-md);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--sp-lg);
+}
+
+.title {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+/* ============================================================
+   BALANCE SECTION (The Hero)
+   ============================================================ */
+.balanceSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+  padding: var(--sp-lg) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.balanceLabel {
+  font-size: var(--fs-balance-label);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.balance {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: var(--fs-balance);
+  font-weight: 700;
+  line-height: var(--lh-tight);
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+
+  /* Tabular figures: numerals have consistent width */
+  font-variant-numeric: tabular-nums;
+  
+  /* Prevent layout shift when balance updates */
+  min-height: 1.2em;
+  display: inline-block;
+}
+
+/* Animate balance changes */
+@keyframes balanceIn {
+  from {
+    opacity: 0.6;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.balanceAnimating {
+  animation: balanceIn 0.3s ease-out;
+}
+
+/* ============================================================
+   FORM SECTION
+   ============================================================ */
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-md);
+}
+
+/* ============================================================
+   INPUT
+   ============================================================ */
+.input {
+  font-family: inherit;
+  font-size: var(--fs-input);
+  padding: var(--sp-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-button-bg);
+  color: var(--color-text-primary);
+  width: 100%;
+
+  /* Hard shadow for clarity and grid alignment */
+  box-shadow: var(--shadow-input);
+
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-input);
+}
+
+.input::placeholder {
+  color: var(--color-text-secondary);
+  opacity: 0.7;
+}
+
+/* ============================================================
+   BUTTON CONTAINER & BUTTONS
+   ============================================================ */
+.buttonGroup {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-md);
+}
+
+.buttonBase {
+  font-family: inherit;
+  font-size: var(--fs-button);
+  font-weight: 600;
+  padding: var(--sp-md) var(--sp-lg);
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 150ms ease;
+  border-radius: var(--radius-md);
+
+  /* Accessible focus state */
+  position: relative;
+}
+
+.buttonBase:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.buttonBase:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* DEPOSIT (Primary) */
+.buttonDeposit {
+  background-color: var(--color-accent);
+  color: #ffffff;
+  box-shadow: var(--shadow-button);
+}
+
+.buttonDeposit:hover:not(:disabled) {
+  background-color: #0052a3;
+}
+
+.buttonDeposit:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+/* WITHDRAW (Secondary) */
+.buttonWithdraw {
+  background-color: var(--color-button-withdraw);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-button);
+}
+
+.buttonWithdraw:hover:not(:disabled) {
+  background-color: #e0e0e0;
+}
+
+.buttonWithdraw:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+/* ============================================================
+   ERROR MESSAGE
+   ============================================================ */
+.errorContainer {
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+  max-height: 0;
+  opacity: 0;
+
+  transition: all 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.errorContainer.visible {
+  max-height: 200px;
+  opacity: 1;
+  margin-top: var(--sp-md);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-3px);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+  75% {
+    transform: translateX(-3px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.error {
+  font-size: var(--fs-body);
+  color: var(--color-error);
+  font-weight: 500;
+  padding: var(--sp-md);
+  background-color: rgba(204, 0, 0, 0.04);
+  border-left: 3px solid var(--color-error);
+  border-radius: var(--radius-md);
+
+  animation: slideIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    shake 500ms ease-out;
+}
+
+/* ============================================================
+   LOADING STATE
+   ============================================================ */
+.balancePlaceholder {
+  opacity: 0.4;
+  font-size: var(--fs-balance);
+  font-family: "IBM Plex Mono", monospace;
+}
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .balance,
+  .error,
+  .buttonBase,
+  .input,
+  .errorContainer {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Ensure inputs are large enough on mobile for touch */
+@media (max-width: 480px) {
+  .input {
+    font-size: 16px; /* prevents zoom on iOS */
+    padding: var(--sp-md);
+  }
+
+  .buttonBase {
+    padding: var(--sp-md);
+  }
+
+  .balance {
+    font-size: 48px;
+  }
+}
