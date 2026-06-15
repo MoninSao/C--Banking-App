@@ -1,16 +1,21 @@
 /* ============================================================
-   DESIGN TOKENS
+   DESIGN TOKENS - Dark Mode with Navy Blue Theme
    ============================================================ */
 :root {
-  /* Color Palette */
-  --color-bg: #f5f5f5;
-  --color-text-primary: #1a1a1a;
-  --color-text-secondary: #666666;
-  --color-accent: #0066cc;
-  --color-error: #cc0000;
-  --color-border: #e0e0e0;
-  --color-button-bg: #ffffff;
-  --color-button-withdraw: #f0f0f0;
+  /* Color Palette - Dark Navy Theme */
+  --color-bg-dark: #0a0e1a;
+  --color-surface: #0f1729;
+  --color-surface-alt: #151d2f;
+  --color-text-primary: #e8eef6;
+  --color-text-secondary: #9ca3be;
+  --color-text-muted: #6b7283;
+  --color-accent: #00d4ff;
+  --color-accent-bright: #00ffff;
+  --color-accent-hover: #00b8d4;
+  --color-error: #ff4d6d;
+  --color-error-light: #ff6b7a;
+  --color-border: #1a2442;
+  --color-glow: rgba(0, 212, 255, 0.2);
 
   /* Spacing Scale (8px base) */
   --sp-xs: 4px;
@@ -25,19 +30,23 @@
   --fs-body: 16px;
   --fs-input: 16px;
   --fs-button: 14px;
-  --fs-balance: 56px;
+  --fs-balance: 64px;
   --fs-balance-label: 14px;
 
   --lh-tight: 1.2;
   --lh-normal: 1.5;
 
   /* Borders & Radius */
-  --radius-sm: 2px;
-  --radius-md: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
 
-  /* Shadows (hard offset, no blur per neo-brutalist) */
-  --shadow-input: 1px 1px 0 #e0e0e0;
-  --shadow-button: 2px 2px 0 #1a1a1a;
+  /* Shadows & Glows */
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
+  --glow-accent: 0 0 20px rgba(0, 212, 255, 0.3);
+  --glow-accent-intense: 0 0 30px rgba(0, 212, 255, 0.5);
 }
 
 @import url("https://rsms.me/inter/inter.css");
@@ -56,17 +65,18 @@ html,
 body {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
-  background-color: var(--color-bg);
+  background-color: var(--color-bg-dark);
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 /* ============================================================
    CONTAINER
    ============================================================ */
 .container {
-  max-width: 380px;
+  max-width: 420px;
   margin: 0 auto;
   padding: var(--sp-lg);
   display: grid;
@@ -77,6 +87,36 @@ body {
   margin-top: var(--sp-xl);
   padding-left: var(--sp-md);
   padding-right: var(--sp-md);
+
+  /* Animated background with gradient blobs */
+  position: relative;
+  z-index: 1;
+}
+
+/* Animated background layer */
+.container::before {
+  content: "";
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(0, 116, 217, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(0, 180, 219, 0.05) 0%, transparent 50%);
+  animation: bgShift 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes bgShift {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(30px, 40px) scale(1.05);
+  }
 }
 
 @media (max-width: 480px) {
@@ -97,33 +137,89 @@ body {
   gap: var(--sp-md);
   border-bottom: 1px solid var(--color-border);
   padding-bottom: var(--sp-lg);
+  animation: fadeInDown 0.6s ease-out 0.1s both;
 }
 
 .title {
   font-size: var(--fs-label);
   font-weight: 600;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-text-secondary);
+  color: var(--color-accent);
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ============================================================
-   BALANCE SECTION (The Hero)
+   BALANCE SECTION (The Hero - Centerpiece)
    ============================================================ */
 .balanceSection {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-sm);
-  padding: var(--sp-lg) 0;
-  border-bottom: 1px solid var(--color-border);
+  gap: var(--sp-md);
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-xxl) var(--sp-lg);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(15, 23, 41, 0.8) 0%, rgba(21, 29, 47, 0.6) 100%);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  animation: cardSlideUp 0.8s ease-out 0.2s both;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle animated glow inside card */
+.balanceSection::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+  animation: floatGlow 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatGlow {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(20px, -20px);
+  }
 }
 
 .balanceLabel {
   font-size: var(--fs-balance-label);
   font-weight: 600;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
+  z-index: 2;
 }
 
 .balance {
@@ -131,7 +227,7 @@ body {
   font-size: var(--fs-balance);
   font-weight: 700;
   line-height: var(--lh-tight);
-  color: var(--color-text-primary);
+  color: var(--color-accent-bright);
   letter-spacing: -0.02em;
 
   /* Tabular figures: numerals have consistent width */
@@ -140,22 +236,47 @@ body {
   /* Prevent layout shift when balance updates */
   min-height: 1.2em;
   display: inline-block;
+
+  /* Glow effect */
+  text-shadow: 
+    0 0 10px var(--color-accent),
+    0 0 20px rgba(0, 212, 255, 0.3),
+    0 0 40px rgba(0, 212, 255, 0.15);
+
+  /* Animation on update */
+  animation: balanceGlow 0.3s ease-out;
+
+  z-index: 2;
 }
 
-/* Animate balance changes */
-@keyframes balanceIn {
-  from {
-    opacity: 0.6;
-    transform: scale(0.98);
+/* Animate balance changes with glow */
+@keyframes balanceGlow {
+  0% {
+    opacity: 0.7;
+    transform: scale(0.95);
+    text-shadow: 
+      0 0 5px var(--color-accent),
+      0 0 10px rgba(0, 212, 255, 0.2),
+      0 0 20px rgba(0, 212, 255, 0.1);
   }
-  to {
+  50% {
+    text-shadow: 
+      0 0 15px var(--color-accent),
+      0 0 30px rgba(0, 212, 255, 0.4),
+      0 0 60px rgba(0, 212, 255, 0.2);
+  }
+  100% {
     opacity: 1;
     transform: scale(1);
+    text-shadow: 
+      0 0 10px var(--color-accent),
+      0 0 20px rgba(0, 212, 255, 0.3),
+      0 0 40px rgba(0, 212, 255, 0.15);
   }
 }
 
 .balanceAnimating {
-  animation: balanceIn 0.3s ease-out;
+  animation: balanceGlow 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
 }
 
 /* ============================================================
@@ -173,27 +294,54 @@ body {
 .input {
   font-family: inherit;
   font-size: var(--fs-input);
-  padding: var(--sp-md);
+  padding: var(--sp-md) var(--sp-lg);
   border: 1px solid var(--color-border);
-  background-color: var(--color-button-bg);
+  background-color: var(--color-surface);
   color: var(--color-text-primary);
   width: 100%;
+  border-radius: var(--radius-md);
+  
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 200ms ease;
 
-  /* Hard shadow for clarity and grid alignment */
-  box-shadow: var(--shadow-input);
+  animation: fadeInUp 0.6s ease-out 0.3s both;
+}
 
-  transition: border-color 150ms ease, box-shadow 150ms ease;
+.input:hover:not(:disabled) {
+  border-color: var(--color-border);
+  background-color: var(--color-surface-alt);
 }
 
 .input:focus {
   outline: none;
   border-color: var(--color-accent);
-  box-shadow: var(--shadow-input);
+  background-color: var(--color-surface-alt);
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.3),
+    0 0 0 2px rgba(0, 212, 255, 0.1),
+    0 0 0 4px rgba(0, 212, 255, 0.05),
+    0 0 15px rgba(0, 212, 255, 0.15);
 }
 
 .input::placeholder {
-  color: var(--color-text-secondary);
-  opacity: 0.7;
+  color: var(--color-text-muted);
+  opacity: 0.8;
+}
+
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ============================================================
@@ -203,6 +351,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--sp-md);
+  animation: fadeInUp 0.6s ease-out 0.4s both;
 }
 
 .buttonBase {
@@ -214,11 +363,29 @@ body {
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  transition: all 150ms ease;
   border-radius: var(--radius-md);
+  transition: all 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
 
   /* Accessible focus state */
-  position: relative;
+  font-size: 14px;
+}
+
+/* Button shimmer effect on hover */
+.buttonBase::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.buttonBase:hover:not(:disabled)::before {
+  left: 100%;
 }
 
 .buttonBase:focus {
@@ -227,43 +394,60 @@ body {
 }
 
 .buttonBase:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
   transform: none !important;
-  box-shadow: none !important;
 }
 
-/* DEPOSIT (Primary) */
+/* DEPOSIT (Primary) - Electric Blue */
 .buttonDeposit {
-  background-color: var(--color-accent);
-  color: #ffffff;
-  box-shadow: var(--shadow-button);
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
+  color: #000;
+  font-weight: 700;
+  box-shadow: 
+    0 4px 12px rgba(0, 212, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .buttonDeposit:hover:not(:disabled) {
-  background-color: #0052a3;
+  transform: translateY(-2px);
+  box-shadow: 
+    0 0 20px var(--color-accent),
+    0 8px 20px rgba(0, 212, 255, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, var(--color-accent-bright) 0%, var(--color-accent) 100%);
 }
 
 .buttonDeposit:active:not(:disabled) {
-  transform: translate(2px, 2px);
-  box-shadow: none;
+  transform: translateY(0px);
+  box-shadow: 
+    0 0 15px var(--color-accent),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* WITHDRAW (Secondary) */
+/* WITHDRAW (Secondary) - Subtle variant */
 .buttonWithdraw {
-  background-color: var(--color-button-withdraw);
-  color: var(--color-text-primary);
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-button);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-accent);
+  border: 1.5px solid var(--color-accent);
+  font-weight: 600;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .buttonWithdraw:hover:not(:disabled) {
-  background-color: #e0e0e0;
+  transform: translateY(-2px);
+  background: rgba(0, 212, 255, 0.12);
+  border-color: var(--color-accent-bright);
+  box-shadow: 
+    0 0 15px rgba(0, 212, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 212, 255, 0.1);
 }
 
 .buttonWithdraw:active:not(:disabled) {
-  transform: translate(2px, 2px);
-  box-shadow: none;
+  transform: translateY(0px);
+  background: rgba(0, 212, 255, 0.15);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 /* ============================================================
@@ -285,29 +469,29 @@ body {
   margin-top: var(--sp-md);
 }
 
-@keyframes slideIn {
+@keyframes errorSlideIn {
   from {
-    transform: translateX(-8px);
+    transform: translateY(-10px);
     opacity: 0;
   }
   to {
-    transform: translateX(0);
+    transform: translateY(0);
     opacity: 1;
   }
 }
 
-@keyframes shake {
+@keyframes errorShake {
   0% {
     transform: translateX(0);
   }
   25% {
-    transform: translateX(-3px);
+    transform: translateX(-4px);
   }
   50% {
-    transform: translateX(3px);
+    transform: translateX(4px);
   }
   75% {
-    transform: translateX(-3px);
+    transform: translateX(-4px);
   }
   100% {
     transform: translateX(0);
@@ -318,22 +502,35 @@ body {
   font-size: var(--fs-body);
   color: var(--color-error);
   font-weight: 500;
-  padding: var(--sp-md);
-  background-color: rgba(204, 0, 0, 0.04);
-  border-left: 3px solid var(--color-error);
+  padding: var(--sp-md) var(--sp-lg);
+  background: linear-gradient(135deg, rgba(255, 77, 109, 0.12) 0%, rgba(255, 107, 122, 0.08) 100%);
+  border-left: 3px solid var(--color-error-light);
   border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 77, 109, 0.2);
+  border-left: 3px solid var(--color-error);
 
-  animation: slideIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1),
-    shake 500ms ease-out;
+  animation: 
+    errorSlideIn 300ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    errorShake 500ms ease-out 300ms;
 }
 
 /* ============================================================
    LOADING STATE
    ============================================================ */
 .balancePlaceholder {
-  opacity: 0.4;
+  opacity: 0.3;
   font-size: var(--fs-balance);
   font-family: "IBM Plex Mono", monospace;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 /* ============================================================
@@ -344,9 +541,20 @@ body {
   .error,
   .buttonBase,
   .input,
-  .errorContainer {
+  .errorContainer,
+  .header,
+  .balanceSection,
+  .buttonGroup {
     animation: none !important;
     transition: none !important;
+  }
+
+  .buttonBase::before {
+    display: none;
+  }
+
+  .container::before {
+    display: none;
   }
 }
 
@@ -354,7 +562,7 @@ body {
 @media (max-width: 480px) {
   .input {
     font-size: 16px; /* prevents zoom on iOS */
-    padding: var(--sp-md);
+    padding: var(--sp-md) var(--sp-lg);
   }
 
   .buttonBase {
@@ -363,5 +571,9 @@ body {
 
   .balance {
     font-size: 48px;
+  }
+
+  .balanceSection {
+    padding: var(--sp-lg) var(--sp-md);
   }
 }
