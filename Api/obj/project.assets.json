@@ -2211,11 +2211,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/moninsao/Downloads/Banking-App/Server/Api.csproj",
+      "projectUniqueName": "/Users/moninsao/Downloads/Banking-App/Api/Api.csproj",
       "projectName": "Api",
-      "projectPath": "/Users/moninsao/Downloads/Banking-App/Server/Api.csproj",
+      "projectPath": "/Users/moninsao/Downloads/Banking-App/Api/Api.csproj",
       "packagesPath": "/Users/moninsao/.nuget/packages/",
-      "outputPath": "/Users/moninsao/Downloads/Banking-App/Server/obj/",
+      "outputPath": "/Users/moninsao/Downloads/Banking-App/Api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/moninsao/.nuget/NuGet/NuGet.Config"
