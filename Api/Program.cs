@@ -1,11 +1,16 @@
 using Api.Data;
 using Microsoft.EntityFrameworkCore;
+using DotNetEnv;
+
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+var connectionString = builder.Configuration.GetConnectionString("Default");
+var password = Environment.GetEnvironmentVariable("DB_PASSWORD");
 builder.Services.AddDbContext<AppDbContext>(opt =>
-    opt.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+    opt.UseNpgsql($"{connectionString}Password={password}"));
 
 // Allow the React dev server (Vite) to call this API
 builder.Services.AddCors(opt =>
