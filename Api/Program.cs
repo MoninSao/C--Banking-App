@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 var connectionString = builder.Configuration.GetConnectionString("Default");
 var password = Environment.GetEnvironmentVariable("DB_PASSWORD");
 builder.Services.AddDbContext<AppDbContext>(opt =>
-    opt.UseNpgsql($"{connectionString}Password={password}"));
+    opt.UseNpgsql($"{connectionString};Password={password}"));
 
 // Allow the React dev server (Vite) to call this API
 builder.Services.AddCors(opt =>
